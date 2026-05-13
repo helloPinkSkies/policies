@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pink Skies — Redirecting…</title>
+    <script>
+      // Single-page-app fallback for GitHub Pages.
+      // Forwards e.g. /privacy → /#/policies/privacy via index.html?p=…
+      (function () {
+        var path = window.location.pathname.replace(/^\//, "").replace(/\.md$/, "");
+        var legacy = {
+          privacy: "policies/privacy",
+          terms_of_service: "policies/terms_of_service",
+          ai_transparency: "policies/ai_transparency",
+          delete_user_steps: "guides/delete_user_steps",
+          delete_data_steps: "guides/delete_data_steps",
+        };
+        var target = legacy[path] || path;
+        var search = window.location.search;
+        var hash = window.location.hash;
+        var qs = search
+          ? search + "&p=" + encodeURIComponent(target)
+          : "?p=" + encodeURIComponent(target);
+        window.location.replace("/" + qs + hash);
+      })();
+    </script>
+    <meta http-equiv="refresh" content="0; url=/" />
+  </head>
+  <body>
+    <p>Redirecting to <a href="/">policies.getpinkskies.com</a>…</p>
+  </body>
+</html>
