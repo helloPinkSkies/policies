@@ -4,7 +4,7 @@ Last updated: 03/05/2026
 
 ### Who we are
 Pink Skies is operated by Georgia Carr and Harry Carr, who act as the data controllers for the purposes of UK data protection law.
-We are registered with the Information Commissioner's Office (ICO) under registration number [XXXXXXX]. 
+We are registered with the Information Commissioner's Office (ICO) under registration number ZC138813. 
 If you have any questions about this policy or how your data is handled, you can contact us at: privacy@getpinkskies.com 
 
 ### What Pink Skies does
