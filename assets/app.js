@@ -1,6 +1,18 @@
 (function () {
   "use strict";
 
+  const FORMSPREE_URL = "https://formspree.io/f/mjgpkvqw";
+
+  const SUPPORT_TOPICS = [
+    "General support",
+    "Export data",
+    "Something's not working",
+    "App crashed or froze",
+    "Issue with reflections or responses",
+    "Something doesn't look right",
+    "Other",
+  ];
+
   const DOCS = {
     policies: {
       label: "Policies",
@@ -146,6 +158,107 @@
     window.scrollTo({ top: 0 });
   }
 
+  function renderSupport() {
+    setHero({
+      eyebrow: "Support",
+      heading: "Contact Support",
+      sub: "Tell us what's going on and we'll help.",
+      compact: true,
+    });
+    document.title = "Contact Support — Pink Skies";
+
+    const options = SUPPORT_TOPICS.map(
+      (t) => `<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`
+    ).join("");
+
+    app.innerHTML = `
+      <div class="crumbs">
+        <a href="#/">Home</a>
+        <span class="crumbs__sep">/</span>
+        <span>Support</span>
+      </div>
+      <div class="support-panel">
+        <form
+          id="support-form"
+          class="support-form"
+          action="${FORMSPREE_URL}"
+          method="POST"
+        >
+          <input type="hidden" name="_subject" value="Pink Skies support request" />
+          <input type="text" name="_gotcha" class="support-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+          <div class="support-form__field">
+            <label class="support-form__label" for="reason">How can we help?</label>
+            <div class="support-form__select-wrap">
+              <select class="support-form__select" id="reason" name="reason" required>
+                <option value="" disabled selected>Select an option</option>
+                ${options}
+              </select>
+            </div>
+          </div>
+
+          <div class="support-form__field">
+            <label class="support-form__label" for="message">Tell us more:</label>
+            <textarea
+              class="support-form__textarea"
+              id="message"
+              name="message"
+              rows="8"
+              placeholder="Share the details..."
+              required
+            ></textarea>
+          </div>
+
+          <p class="support-form__note" id="support-form-status" role="status" aria-live="polite"></p>
+
+          <button class="support-form__submit" type="submit" id="support-form-submit">Submit</button>
+        </form>
+      </div>`;
+
+    bindSupportForm();
+    window.scrollTo({ top: 0 });
+  }
+
+  function bindSupportForm() {
+    const form = document.getElementById("support-form");
+    if (!form || form.dataset.bound === "true") return;
+    form.dataset.bound = "true";
+
+    const status = document.getElementById("support-form-status");
+    const submitBtn = document.getElementById("support-form-submit");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      status.textContent = "";
+      status.className = "support-form__note";
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending…";
+
+      try {
+        const res = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          const detail = data.errors?.map((err) => err.message).join(" ") || "Something went wrong.";
+          throw new Error(detail);
+        }
+        form.reset();
+        status.textContent =
+          "Thanks — your message has been sent. We'll get back to you as soon as we can.";
+        status.classList.add("support-form__note--success");
+      } catch (err) {
+        status.textContent = String(err.message || err);
+        status.classList.add("support-form__note--error");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit";
+      }
+    });
+  }
+
   function renderNotFound() {
     setHero({
       eyebrow: "Not found",
@@ -229,6 +342,7 @@
     const parts = hash.split("/").filter(Boolean);
 
     if (parts.length === 0) return renderHome();
+    if (parts.length === 1 && parts[0] === "support") return renderSupport();
     if (parts.length === 1) return renderCategory(parts[0]);
     if (parts.length >= 2) return renderDoc(parts[0], parts[1]);
   }
