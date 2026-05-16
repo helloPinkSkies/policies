@@ -419,6 +419,146 @@ a:hover {
   color: var(--splash-soft);
 }
 
+/* ----- Support form ----- */
+.support-panel {
+  background: var(--overlay);
+  border-radius: var(--radius);
+  padding: clamp(24px, 4vw, 36px);
+  box-shadow: var(--card-shadow);
+}
+
+.support-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.support-form__honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.support-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.support-form__label {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.support-form__select-wrap {
+  position: relative;
+}
+
+.support-form__select-wrap::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid rgba(255, 255, 255, 0.7);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+  transform: translateY(-65%) rotate(45deg);
+  pointer-events: none;
+}
+
+.support-form__select,
+.support-form__textarea,
+.support-form__input {
+  width: 100%;
+  font: inherit;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 14px 18px;
+  appearance: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.support-form__select {
+  padding-right: 44px;
+  cursor: pointer;
+}
+
+.support-form__select option {
+  color: var(--text);
+  background: #fff;
+}
+
+.support-form__textarea {
+  border-radius: 20px;
+  resize: vertical;
+  min-height: 180px;
+  line-height: 1.5;
+}
+
+.support-form__select::placeholder,
+.support-form__textarea::placeholder,
+.support-form__input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.support-form__select:focus,
+.support-form__textarea:focus,
+.support-form__input:focus {
+  outline: none;
+  border-color: rgba(201, 138, 154, 0.65);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.support-form__submit {
+  width: 100%;
+  margin-top: 4px;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 999px;
+  background: var(--splash);
+  color: #fff;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.support-form__submit:hover:not(:disabled) {
+  background: var(--splash-deep);
+}
+
+.support-form__submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.support-form__note {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  min-height: 1.2em;
+}
+
+.support-form__note--success {
+  color: #d4f0d8;
+}
+
+.support-form__note--error {
+  color: #ffd4dc;
+}
+
+.page .crumbs {
+  margin-bottom: 16px;
+}
+
 /* ----- Focus styles ----- */
 a:focus-visible,
 button:focus-visible {
